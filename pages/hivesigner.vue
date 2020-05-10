@@ -35,7 +35,7 @@ export default {
         /*const loginObj = { username: 'dlingua' };*/
         /*if (this.form.username) loginObj.username = this.form.username;*/
 
-        client.login({ username: '' }, function(err, token) {
+        client.login({ username: 'wti18n' }, function(err, token) {
           /*console.log('Log in result', err, token);*/
           /*if (err) return self.isLoading = false;*/
           client.setAccessToken(token);
