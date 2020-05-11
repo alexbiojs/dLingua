@@ -22,7 +22,7 @@
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'http://localhost:3000/hivesigner',
+  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
   scope: ['vote', 'comment']
 });
 
