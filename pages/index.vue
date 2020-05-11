@@ -1,4 +1,78 @@
 <template>
+    <v-app dark>
+    <v-app-bar fixed>
+      <v-btn class="ma-3" outlined color="indigo"> map </v-btn>
+      <v-btn class="ma-3" outlined color="indigo"> phonetic system </v-btn>
+      <v-btn class="ma-3" outlined color="indigo"> users list </v-btn>
+      <v-btn class="ma-3" outlined color="indigo" @click="login"> Log in </v-btn>
+    </v-app-bar>
+    <v-footer fixed>
+      <span>{{ new Date().getFullYear() }}, by <a href="https://peakd.com/@alexbiojs" target="_blank">alexbiojs</a></span>
+    </v-footer>
+    </v-app>
+</template>
+
+
+
+<script type="text/javascript">
+
+const client = new hivesigner.Client({
+  app: 'dlingua',
+  callbackURL: 'http://localhost:3000/hivesigner',
+  scope: ['vote', 'comment']
+});
+
+export default {
+   mounted: function() {
+      let params = (new URL(location)).searchParams;
+      const token = params.get('access_token') || localStorage.getItem('sc_token');
+      if (token) {
+        const self = this;
+        this.isInit = false;
+        client.setAccessToken(token);
+        
+        /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
+        
+        client.me(function(err, result) {
+          if (result) self.username = result.name;
+          if (err) self.error = err;
+          localStorage.setItem('sc_token', token);
+          self.isInit = true;
+          console.log(err, result);
+        });
+      } else {
+        this.isInit = true;
+      }
+   },
+   methods: {
+    login () {
+        /*const self = this;
+        this.isLoading = true;
+        */
+        /*const loginObj = { username: 'dlingua' };*/
+        /*if (this.form.username) loginObj.username = this.form.username;*/
+
+        client.login({ username: '' }, function(err, token) {
+          /*console.log('Log in result', err, token);*/
+          /*if (err) return self.isLoading = false;*/
+          client.setAccessToken(token);
+
+          client.me(function(err, result) {
+            console.log('Verification result', err, result);
+            if (result) self.username = result.name;
+            if (err) self.error = err;
+            localStorage.setItem('sc_token', token);
+            self.isLoading = false;
+          });
+        });
+     }
+   }
+}
+</script>
+
+
+<!--
+<template>
   <v-layout
     column
     justify-center
@@ -27,9 +101,6 @@
               documentation
             </a>.
           </p>
-        <button @click="login" class="btn btn-primary" :disabled="isLoading">
-            Log in
-          </button>
           <p>
             If you have questions, please join the official <a
               href="https://chat.vuetifyjs.com/"
@@ -81,8 +152,10 @@
     </v-flex>
   </v-layout>
 </template>
+-->
 
 <script>
+/*
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
@@ -92,5 +165,5 @@ export default {
     VuetifyLogo
   }
 }
-
+*/
 </script>

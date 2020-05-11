@@ -35,6 +35,9 @@ export default {
   plugins: [
   ],
   /*
+  fix for index.vue
+  */
+  /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
@@ -47,7 +50,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    // Doc: https://github.com/nuxt-community/dotenv-module
+    // Doc: c
     '@nuxtjs/dotenv',
   ],
   /*

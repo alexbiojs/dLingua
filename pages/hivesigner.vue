@@ -1,33 +1,63 @@
+<!--
 <template>
-      <!--<button id="main" @click="login">
-        Log in
-      </button>-->
       <button id="main" @click="login">
         Log in
       </button>
 </template>
+-->
 
+<template>
+    <v-app dark>
+    <v-app-bar fixed>
+      <v-btn class="ma-3" outlined color="indigo"> map </v-btn>
+      <v-btn class="ma-3" outlined color="indigo"> phonetic system </v-btn>
+      <v-btn class="ma-3" outlined color="indigo"> users list </v-btn>
+      <v-btn class="ma-3" outlined color="indigo" @click="login"> Log in </v-btn>
+    </v-app-bar>
+    <v-content>
+      <v-container>
+        <nuxt />
+      </v-container>
+    </v-content>
+    <v-footer fixed>
+      <span>{{ new Date().getFullYear() }}, by <a href="https://peakd.com/@alexbiojs" target="_blank">alexbiojs</a></span>
+    </v-footer>
+    </v-app>
+</template>
 
 
 <script type="text/javascript">
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
+  callbackURL: 'http://localhost:3000/hivesigner',
   scope: ['vote', 'comment']
 });
 
-/*
-import commonMixin from '~/mixins/login.js'
 export default {
-    mixins: [commonMixin]
-}
- */
- 
- /*var link = client.getLoginURL(state);*/
- 
- export default {
-  methods: {
+   mounted: function() {
+      let params = (new URL(location)).searchParams;
+      const token = params.get('access_token') || localStorage.getItem('sc_token');
+      if (token) {
+        const self = this;
+        this.isInit = false;
+        client.setAccessToken(token);
+        window.history.replaceState({}, document.title, "http://localhost:3000/");
+        
+        /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
+        
+        client.me(function(err, result) {
+          if (result) self.username = result.name;
+          if (err) self.error = err;
+          localStorage.setItem('sc_token', token);
+          self.isInit = true;
+          console.log(err, result);
+        });
+      } else {
+        this.isInit = true;
+      }
+   },
+   methods: {
     login () {
         /*const self = this;
         this.isLoading = true;
@@ -35,7 +65,7 @@ export default {
         /*const loginObj = { username: 'dlingua' };*/
         /*if (this.form.username) loginObj.username = this.form.username;*/
 
-        client.login({ username: 'wti18n' }, function(err, token) {
+        client.login({ username: '' }, function(err, token) {
           /*console.log('Log in result', err, token);*/
           /*if (err) return self.isLoading = false;*/
           client.setAccessToken(token);
@@ -48,8 +78,8 @@ export default {
             self.isLoading = false;
           });
         });
-    }
-  }
+     }
+   }
 }
 
       
