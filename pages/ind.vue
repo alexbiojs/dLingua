@@ -22,7 +22,7 @@
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
+  callbackURL: 'http://localhost:3000/hivesigner/',
   scope: ['vote', 'comment']
 });
 
@@ -34,7 +34,7 @@ export default {
         const self = this;
         this.isInit = false;
         client.setAccessToken(token);
-        window.history.replaceState({}, document.title, "https://dlingua.netlify.app/");
+        /*window.history.replaceState({}, document.title, "http://localhost:3000/hivesigner/");*/
         
         /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
         

@@ -14,12 +14,20 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
     script: [
-      { src: 'https://cdn.jsdelivr.net/npm/hivesigner@3.1.5' }
+      { src: 'https://cdn.jsdelivr.net/npm/hivesigner@3.1.5' },
+      { src: 'https://code.jquery.com/jquery-3.5.1.min.js' },
+      { src: 'dhive.js' },
+      { src: 'jquery.vmap.min.js', type: 'text/javascript' },
+      { src: 'jquery.vmap.world.js', type: 'text/javascript' }
     ],
   },
+    /*
+   build: {
+      vendor: ['jquery.vmap.min.js'],
+   },*/
   /*
   ** Customize the progress-bar color
   */
@@ -28,7 +36,11 @@ export default {
   ** Global CSS
   */
   css: [
+      '~/assets/jqvmap.min.css',
   ],
+  build: {
+          extractCSS: true
+  },
   /*
   ** Plugins to load before mounting the App
   */
@@ -58,6 +70,13 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+  /*
+  index fixed
+  https://nuxtjs.org/api/configuration-router
+  */
+  router: {
+    base: '/'
   },
   /*
   ** vuetify module configuration

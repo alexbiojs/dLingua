@@ -9,16 +9,15 @@
 <template>
     <v-app dark>
     <v-app-bar fixed>
-      <v-btn class="ma-3" outlined color="indigo"> map </v-btn>
-      <v-btn class="ma-3" outlined color="indigo"> phonetic system </v-btn>
-      <v-btn class="ma-3" outlined color="indigo"> users list </v-btn>
+      <v-btn class="ma-12" outlined color="indigo"> map </v-btn>
+      <v-btn class="ma-12" outlined color="indigo"> phonetic system </v-btn>
+      <v-btn class="ma-12" outlined color="indigo" :disabled="this.$store.state.hivesigner.isLoading" @click="testing"> {{this.$store.state.hivesigner.testing}} </v-btn>
       <v-btn class="ma-3" outlined color="indigo" @click="login"> Log in </v-btn>
     </v-app-bar>
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
+        <div id="vmap" style="width: 80%; height: 80%"></div>
+        <p>text</p>
+        <div id="postList"></div>
+        <v-card id="modal" style="visibility: hidden; width: 50%; height: 50%"> text </v-card>
     <v-footer fixed>
       <span>{{ new Date().getFullYear() }}, by <a href="https://peakd.com/@alexbiojs" target="_blank">alexbiojs</a></span>
     </v-footer>
@@ -26,23 +25,149 @@
 </template>
 
 
-<script type="text/javascript">
+<script>
+
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
+  callbackURL: 'http://localhost:3000/hivesigner',
   scope: ['vote', 'comment']
 });
 
+
+
+var clientHive = new dhive.Client(["https://api.hive.blog", "https://api.hivekings.com", "https://anyx.io", "https://api.openhive.network"]);
+/*     clientHive.database.getDiscussions("trending", { tag: "ru", limit: 5 }).then(result => {
+            console.log("Response received:", result);
+            if (result) {
+                var posts = [];
+                result.forEach(post => {
+                    const json = JSON.parse(post.json_metadata);
+                    const image = json.image ? json.image[0] : '';
+                    const title = post.title;
+                    const author = post.author;
+                    const created = new Date(post.created).toDateString();
+                    posts.push(
+                        `<div><h4>${title}</h4><p>by ${author}</p><center><img src="${image}" style="max-width: 450px"/></center><p>${created}</p></div>`
+                    );
+                });
+
+                document.getElementById('postList').innerHTML = posts.join('');
+            } else {
+                document.getElementById('postList').innerHTML = "No result.";
+            }
+       });
+  */     
+/*
+            console.log("working");
+            console.log("Response received:", discussions);
+            document.body.innerHTML += "<h1>" + discussions[0].title + "</h1>";
+            document.body.innerHTML += "<h2>by " + discussions[0].author + "</h2>";
+            document.body.innerHTML +=
+            '<pre style="white-space: pre-wrap">' + discussions[0].body + "</pre>";
+*/
+
+        
+
+jQuery(document).ready(function() {
+
+  jQuery('#vmap').vectorMap(
+  {
+    map: 'world_en',
+    backgroundColor: '#a5bfdd',
+    borderColor: '#818181',
+    borderOpacity: 0.25,
+    borderWidth: 1,
+    color: '#f4f3f0',
+    enableZoom: true,
+    hoverColor: '#c9dfaf',
+    hoverOpacity: null,
+    normalizeFunction: 'linear',
+    scaleColors: ['#b6d6ff', '#005ace'],
+    selectedColor: '#c9dfaf',
+    selectedRegions: null,
+    showTooltip: true,
+    onRegionClick: function(element, code, region)
+    {
+        
+        var message = 'You clicked "'
+            + region
+            + '" which has the code: '
+            + code.toUpperCase();
+
+        alert(code.toUpperCase());
+        document.getElementById("modal").style.visibility = 'visible';
+        
+        
+        const query = {
+          tag: code,
+          limit: 20,
+        };
+        
+        clientHive.database.getDiscussions("trending", query).then(result => {
+            console.log("Response received:", result);
+            if (result) {
+                var posts = [];
+                result.forEach(post => {
+                    const json = JSON.parse(post.json_metadata);
+                    const image = json.image ? json.image[0] : '';
+                    const title = post.title;
+                    const author = post.author;
+                    const created = new Date(post.created).toDateString();
+                    posts.push(
+                        `<div><h4>${title}</h4><p>by ${author}</p><center><img src="${image}" style="max-width: 450px"/></center><p>${created}</p></div>`
+                    );
+                });
+
+                document.getElementById('postList').innerHTML = posts.join('');
+            } else {
+                document.getElementById('postList').innerHTML = "No result.";
+            }
+       });
+        
+        
+        
+        /*
+    clientHive.database.getDiscussions("trending", query).then(discussions => {
+            console.log("working");
+            console.log("Response received:", discussions);
+            document.body.innerHTML += "<h1>" + discussions[0].title + "</h1>";
+            document.body.innerHTML += "<h2>by " + discussions[0].author + "</h2>";
+            document.body.innerHTML +=
+            '<pre style="white-space: pre-wrap">' + discussions[0].body + "</pre>";
+    });
+        */
+        var para = document.createElement("p");
+        para.innerHTML = "This is a paragraph.";
+        document.getElementById("modal").appendChild(para);    
+        
+        
+        
+    }
+  });
+});
+
+
+
 export default {
+   /*data: function() {
+      return {
+        isLoading:false,
+      }
+   },*/
    mounted: function() {
       let params = (new URL(location)).searchParams;
       const token = params.get('access_token') || localStorage.getItem('sc_token');
       if (token) {
-        const self = this;
-        this.isInit = false;
+        
+        /*const self = this;*/
+        
+        this.$store.dispatch('hivesigner/toggleisLoading');
+        
+        /*this.$store.state.dispatch('toggleisLoading');*/
+        
         client.setAccessToken(token);
-        window.history.replaceState({}, document.title, "https://dlingua.netlify.app/hivesigner/");
+        window.history.replaceState({}, document.title, "http://localhost:3000/hivesigner");
         
         /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
         
@@ -58,6 +183,9 @@ export default {
       }
    },
    methods: {
+    testing (){
+      this.$store.dispatch('hivesigner/toggleisLoading');
+    },
     login () {
         /*const self = this;
         this.isLoading = true;
@@ -82,118 +210,4 @@ export default {
    }
 }
 
-      
-/*
-window.onload = function() {
-  new Vue({
-    el: '#main',
-    data: {
-      username: null,
-      form: {
-        username: null,
-        comment: null,
-      },
-      isInit: false,
-      isLoading: false,
-      txId: null,
-      error: null,
-      useHiveKeychain: hivesigner.useHiveKeychain(),
-      parentAuthor: 'steemguest',
-      parentPermlink: '4lx1se-test-post',
-
-    },
-    mounted: function () {
-      let params = (new URL(location)).searchParams;
-      const token = params.get('access_token') || localStorage.getItem('sc_token');
-      if (token) {
-        const self = this;
-        this.isInit = false;
-        client.setAccessToken(token);
-
-        client.me(function(err, result) {
-          if (result) self.username = result.name;
-          if (err) self.error = err;
-          localStorage.setItem('sc_token', token);
-          self.isInit = true;
-          console.log(err, result);
-        });
-      } else {
-        this.isInit = true;
-      }
-    },
-    methods: {
-      login: function () {
-        const self = this;
-        this.isLoading = true;
-
-        const loginObj = {};
-        if (this.form.username) loginObj.username = this.form.username;
-
-        client.login(loginObj, function(err, token) {
-          console.log('Log in result', err, token);
-          if (err) return self.isLoading = false;
-          client.setAccessToken(token);
-
-          client.me(function(err, result) {
-            console.log('Verification result', err, result);
-            if (result) self.username = result.name;
-            if (err) self.error = err;
-            localStorage.setItem('sc_token', token);
-            self.isLoading = false;
-          });
-        });
-      },
-      comment: function () {
-        const self = this;
-        this.isLoading = true;
-        this.txId = null;
-        this.error = null;
-
-        const permlink = 'hivesigner-' + new Date().getTime();
-        const jsonMetadata = JSON.stringify({ tags: ['hivesigner'], app: 'hivesigner' });
-
-        client.comment(this.parentAuthor, this.parentPermlink, this.username, permlink, '', this.form.comment, jsonMetadata, function(err, result) {
-          console.log('Comment result', err, result);
-          self.isLoading = false;
-          if (result) self.txId = result.id || result.result.id;
-          if (err) self.error = err;
-        });
-      },
-      vote: function () {
-        const self = this;
-        this.isLoading = true;
-        this.txId = null;
-        this.error = null;
-
-        client.vote(this.username, this.parentAuthor, this.parentPermlink, 10000, function(err, result) {
-          console.log('Vote result', err, result);
-          self.isLoading = false;
-          if (result) self.txId = result.id || result.result.id;
-          if (err) self.error = err;
-        });
-      },
-      transfer: function () {
-        const self = this;
-        this.txId = null;
-        this.error = null;
-
-        const op = ['transfer', {
-          from: '__signer',
-          to: 'fabien',
-          amount: '0.001 HIVE',
-          memo: 'Transfer with HiveSigner demo'
-        }];
-        hivesigner.sendOperation(op, {}, function(err, result) {
-          console.log('Transfer result', err, result);
-          if (result) self.txId = result.id || result.result.id;
-          if (err) self.error = err;
-        });
-      },
-      logout: function () {
-        this.username = null;
-        localStorage.removeItem('sc_token');
-      }
-    }
-  });
-}*/
 </script>

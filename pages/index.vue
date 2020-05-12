@@ -18,7 +18,7 @@
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'http://localhost:3000/hivesigner',
+  callbackURL: 'http://localhost:3000/hivesigner/',
   scope: ['vote', 'comment']
 });
 

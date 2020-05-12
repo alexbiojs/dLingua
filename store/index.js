@@ -1,9 +1,6 @@
-export const state = () => ({
-  counter: 0
-})
+/*To disable strict mode in dev, follow the below example in store/index.js:
+https://nuxtjs.org/guide/vuex-store*/
 
-export const mutations = {
-  increment (state) {
-    state.counter++
-  }
-}
+export const strict = false
+
+
