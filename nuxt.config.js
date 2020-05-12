@@ -15,16 +15,17 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css'}
     ],
     script: [
       { src: 'https://cdn.jsdelivr.net/npm/hivesigner@3.1.5' },
       { src: 'https://code.jquery.com/jquery-3.5.1.min.js' },
-      { src: '~/dist/assets/dhive.js' },
-      { src: '~/dist/assets/jquery.vmap.min.js', type: 'text/javascript' },
-      { src: '~/dist/assets/jquery.vmap.world.js', type: 'text/javascript' }
+      { src: '  https://unpkg.com/@hivechain/dsteem@0.12.14/dist/dsteem.js' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.min.js', type: 'text/javascript' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.world.js', type: 'text/javascript' }
     ],
   },
-    /*
+    /* ~/assets/... works
    build: {
       vendor: ['jquery.vmap.min.js'],
    },*/
@@ -36,7 +37,7 @@ export default {
   ** Global CSS
   */
   css: [
-      '~/dist/assets/jqvmap.min.css',
+      '~/assets/jqvmap.min.css',
   ],
   build: {
           extractCSS: true

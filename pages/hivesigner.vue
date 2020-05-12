@@ -35,7 +35,7 @@ const client = new hivesigner.Client({
 });
 
 
-
+var dhive = require("@hivechain/dhive");
 var clientHive = new dhive.Client(["https://api.hive.blog", "https://api.hivekings.com", "https://anyx.io", "https://api.openhive.network"]);
 /*     clientHive.database.getDiscussions("trending", { tag: "ru", limit: 5 }).then(result => {
             console.log("Response received:", result);
