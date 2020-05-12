@@ -19,9 +19,9 @@ export default {
     script: [
       { src: 'https://cdn.jsdelivr.net/npm/hivesigner@3.1.5' },
       { src: 'https://code.jquery.com/jquery-3.5.1.min.js' },
-      { src: 'dhive.js' },
-      { src: 'jquery.vmap.min.js', type: 'text/javascript' },
-      { src: 'jquery.vmap.world.js', type: 'text/javascript' }
+      { src: '~/assets/dhive.js' },
+      { src: '~/assets/jquery.vmap.min.js', type: 'text/javascript' },
+      { src: '~/assets/jquery.vmap.world.js', type: 'text/javascript' }
     ],
   },
     /*
