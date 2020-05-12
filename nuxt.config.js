@@ -19,9 +19,9 @@ export default {
     script: [
       { src: 'https://cdn.jsdelivr.net/npm/hivesigner@3.1.5' },
       { src: 'https://code.jquery.com/jquery-3.5.1.min.js' },
-      { src: '~/assets/dhive.js' },
-      { src: '~/assets/jquery.vmap.min.js', type: 'text/javascript' },
-      { src: '~/assets/jquery.vmap.world.js', type: 'text/javascript' }
+      { src: '~/dist/assets/dhive.js' },
+      { src: '~/dist/assets/jquery.vmap.min.js', type: 'text/javascript' },
+      { src: '~/dist/assets/jquery.vmap.world.js', type: 'text/javascript' }
     ],
   },
     /*
@@ -36,7 +36,7 @@ export default {
   ** Global CSS
   */
   css: [
-      '~/assets/jqvmap.min.css',
+      '~/dist/assets/jqvmap.min.css',
   ],
   build: {
           extractCSS: true
