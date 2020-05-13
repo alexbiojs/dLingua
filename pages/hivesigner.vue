@@ -303,7 +303,7 @@ export default {
         /*this.$store.state.dispatch('toggleisLoading');*/
         
         client.setAccessToken(token);
-        window.history.replaceState({}, document.title, "http://localhost:3000/hivesigner");
+        window.history.replaceState({}, document.title, "https://dlingua.netlify.app/hivesigner/");
         
         /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
         
