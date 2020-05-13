@@ -27,6 +27,10 @@
 
 <script>
 
+import { Remarkable } from 'remarkable';
+
+import { linkify } from 'remarkable/linkify';
+
 
 const client = new hivesigner.Client({
   app: 'dlingua',
@@ -108,24 +112,69 @@ jQuery(document).ready(function() {
             console.log("Response received:", result);
             if (result) {
                 var posts = [];
-                result.forEach(post => {
+                result.forEach(post =>{
+                    /*if (post.category == "steem"){*/
+                    /*console.log(post.category == query.tag);*/
                     const json = JSON.parse(post.json_metadata);
                     const image = json.image ? json.image[0] : '';
                     const title = post.title;
+                    const permlink = post.permlink;
                     const author = post.author;
                     const created = new Date(post.created).toDateString();
                     posts.push(
-                        `<div><h4>${title}</h4><p>by ${author}</p><center><img src="${image}" style="max-width: 450px"/></center><p>${created}</p></div>`
+                        `<div id="addedposts"><h4 class="rollout">${title}</h4><p data-author="${author}" data-permlink="${permlink}">${author}</p><p>${permlink}</p><center><img src="${image}" style="max-width: 450px"/></center><p>${created}</p></div>`
                     );
+                    /*}*/
                 });
-
+                    /*const list = posts.join('');*/
                 document.getElementById('postList').innerHTML = posts.join('');
+                  $(".rollout").click(function(e) {
+                       var author = e.target.nextSibling.dataset.author;
+                       console.log(e);
+                       console.log(author);
+                       
+                       var permlink = e.target.nextSibling.dataset.permlink;
+                       console.log(permlink);
+                       
+                       /*var author = $("#author").text();
+                       console.log(permlink);
+                       */
+                       
+                       /*var searchparams = ;*/
+                       
+                       /*clientHive.database.getDiscussions("trending");*/
+                       
+                       /*clientHive.database.call('get_content', ["jossduarte", "mi-experiencia-con-tinder-parte-2"]).then(result => {*/
+                            
+                         clientHive.database.call('get_content', [author, permlink]).then(result => {
+                            console.log("text");
+                            const md = new Remarkable({ html: true}).use(linkify);
+                            
+                            const body = md.render(result.body);
+
+                            const content = `<div >Close</button></div><br><h2>${
+                                result.title
+                            }</h2><br>${body}<br>`;
+                            
+                            
+                            
+                            
+                            document.getElementById('postList').innerHTML = content;
+                            
+                            
+                            
+                            
+                        });
+                        
+                       
+                     }
+                   );
             } else {
                 document.getElementById('postList').innerHTML = "No result.";
             }
        });
         
-        
+        /*posts.join('');*/
         
         /*
     clientHive.database.getDiscussions("trending", query).then(discussions => {
@@ -145,7 +194,13 @@ jQuery(document).ready(function() {
         
     }
   });
+  
+  
 });
+
+
+
+
 
 
 
