@@ -39,6 +39,9 @@ const client = new hivesigner.Client({
 });
 
 
+var myUsername = "";
+
+
 var dhive = require("@hivechain/dhive");
 var clientHive = new dhive.Client(["https://api.hive.blog", "https://api.hivekings.com", "https://anyx.io", "https://api.openhive.network"]);
 /*     clientHive.database.getDiscussions("trending", { tag: "ru", limit: 5 }).then(result => {
@@ -146,6 +149,8 @@ jQuery(document).ready(function() {
                        
                        /*clientHive.database.call('get_content', ["jossduarte", "mi-experiencia-con-tinder-parte-2"]).then(result => {*/
                             
+                            /*show post details*/
+                            
                          clientHive.database.call('get_content', [author, permlink]).then(result => {
                             console.log("text");
                             const md = new Remarkable({ html: true}).use(linkify);
@@ -154,13 +159,27 @@ jQuery(document).ready(function() {
 
                             const content = `<div >Close</button></div><br><h2>${
                                 result.title
-                            }</h2><br>${body}<br>`;
+                            }</h2><br>${body}<br><button id="voteit"> vote! </button>`;
                             
                             
-                            
+                            /*Voteing feature*/
                             
                             document.getElementById('postList').innerHTML = content;
                             
+                            $("#voteit").click(function(e) {
+                                client.vote(myUsername, author, permlink, 10000, function(err, result) {
+                                      console.log(myUsername);
+                                      console.log('Vote result', err, result);
+                                      
+                                      
+                                      var txId = 0;
+                                      if (result) txId = result.id || result.result.id;
+                                      console.log(txId);
+                                      if (err) self.error = err;
+                                      
+                                    });
+                            
+                            });
                             
                             
                             
@@ -202,8 +221,6 @@ jQuery(document).ready(function() {
 
 
 
-
-
 export default {
    /*data: function() {
       return {
@@ -227,11 +244,12 @@ export default {
         /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
         
         client.me(function(err, result) {
-          if (result) self.username = result.name;
+          if (result) myUsername = result.name;
           if (err) self.error = err;
           localStorage.setItem('sc_token', token);
           self.isInit = true;
           console.log(err, result);
+          console.log(myUsername);
         });
       } else {
         this.isInit = true;
@@ -255,7 +273,7 @@ export default {
 
           client.me(function(err, result) {
             console.log('Verification result', err, result);
-            if (result) self.username = result.name;
+            if (result) myUsername = result.name;
             if (err) self.error = err;
             localStorage.setItem('sc_token', token);
             self.isLoading = false;
