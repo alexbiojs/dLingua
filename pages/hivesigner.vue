@@ -16,6 +16,9 @@
     </v-app-bar>
         <div id="vmap" style="width: 80%; height: 80%"></div>
         <p>text</p>
+        
+        <v-btn class="ma-12" outlined color="green" id="posting"> post </v-btn>
+        
         <div id="postList"></div>
         <v-card id="modal" style="visibility: hidden; width: 50%; height: 50%"> text </v-card>
     <v-footer fixed>
@@ -34,13 +37,13 @@ import { linkify } from 'remarkable/linkify';
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
+  callbackURL: 'http://localhost:3000/hivesigner',
   scope: ['vote', 'comment']
 });
 
 
 var myUsername = "";
-
+ 
 
 var dhive = require("@hivechain/dhive");
 var clientHive = new dhive.Client(["https://api.hive.blog", "https://api.hivekings.com", "https://anyx.io", "https://api.openhive.network"]);
@@ -75,8 +78,37 @@ var clientHive = new dhive.Client(["https://api.hive.blog", "https://api.hivekin
 */
 
         
+        /*posting feature*/
+        
+
+/* posting feature*/
+        
+
+        
+
+        
+        
 
 jQuery(document).ready(function() {
+
+
+        jQuery('#posting').click(function(e){
+            const permlinkForPost = 'hivesigner-' + new Date().getTime();
+            const jsonMetadata = JSON.stringify({ tags: ['dlingua'], app: 'dlingua' });
+
+            console.log("posting feature work");
+
+            client.comment('', 'dlingua', myUsername, permlinkForPost, 'testing a dapp', 'body here. Just testing an upcoming dApp. Dont vote, please', jsonMetadata, function(err, result) {
+              console.log('post result', err, result);
+
+              if (result) self.txId = result.id || result.result.id;
+              if (err) self.error = err;
+
+            });
+           }
+        );
+
+
 
   jQuery('#vmap').vectorMap(
   {
@@ -97,26 +129,28 @@ jQuery(document).ready(function() {
     onRegionClick: function(element, code, region)
     {
         
-        var message = 'You clicked "'
-            + region
-            + '" which has the code: '
-            + code.toUpperCase();
+            var message = 'You clicked "'
+                + region
+                + '" which has the code: '
+                + code.toUpperCase();
 
-        alert(code.toUpperCase());
-        document.getElementById("modal").style.visibility = 'visible';
+            alert(code.toUpperCase());
+            document.getElementById("modal").style.visibility = 'visible';
+
+
+            const query = {
+              tag: code,
+              limit: 20,
+            };
         
+        /*Created (new), feed, hot, trending, and promoted*/
         
-        const query = {
-          tag: code,
-          limit: 20,
-        };
-        
-        clientHive.database.getDiscussions("trending", query).then(result => {
+        clientHive.database.getDiscussions("created", query).then(result => {
             console.log("Response received:", result);
             if (result) {
                 var posts = [];
                 result.forEach(post =>{
-                    /*if (post.category == "steem"){*/
+                    /*if (post.category == "dlingua"){*/
                     /*console.log(post.category == query.tag);*/
                     const json = JSON.parse(post.json_metadata);
                     const image = json.image ? json.image[0] : '';
@@ -159,15 +193,45 @@ jQuery(document).ready(function() {
 
                             const content = `<div >Close</button></div><br><h2>${
                                 result.title
-                            }</h2><br>${body}<br><button id="voteit"> vote! </button>`;
+                            }</h2><br>${body}<br><button id="voteit"> vote! </button><br><input type="range" min="1" max="100" value="50" id="slider"><div id="result"></div>`;
                             
+                            /*<input type="range" min="1" max="100" value="50" id="slider"><div id="sliderResult"></div>*/
                             
-                            /*Voteing feature*/
+                            /*Vote feature*/
                             
                             document.getElementById('postList').innerHTML = content;
                             
+                            
+                            var voteWeight = 0;
+                            
+                            
+                            /*slider*/
+                            
+                            var slider = document.getElementById("slider");
+                            var sliderResult = document.getElementById("result");
+                            sliderResult.innerHTML = slider.value;
+                            
+                            slider.oninput = function() {
+                              sliderResult.innerHTML = this.value;
+                              voteWeight = this.value*100;
+                            }
+                            
+                            
+                            /*
+                            
+                            var rangeslider = document.getElementById("slider"); 
+                            var output = document.getElementById("demo"); 
+                            output.innerHTML = rangeslider.value; 
+
+                            rangeslider.oninput = function() { 
+                              output.innerHTML = this.value; 
+                            };
+                            
+                            */
+                            
+                            
                             $("#voteit").click(function(e) {
-                                client.vote(myUsername, author, permlink, 10000, function(err, result) {
+                                client.vote(myUsername, author, permlink, voteWeight, function(err, result) {
                                       console.log(myUsername);
                                       console.log('Vote result', err, result);
                                       
