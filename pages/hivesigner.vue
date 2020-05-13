@@ -37,7 +37,7 @@ import { linkify } from 'remarkable/linkify';
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'http://localhost:3000/hivesigner',
+  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
   scope: ['vote', 'comment']
 });
 
@@ -98,7 +98,7 @@ jQuery(document).ready(function() {
 
             console.log("posting feature work");
 
-            client.comment('', 'dlingua', myUsername, permlinkForPost, 'testing a dapp', 'body here. Just testing an upcoming dApp. Dont vote, please', jsonMetadata, function(err, result) {
+            client.comment('', 'dlingua', myUsername, 'hivesigner-1589405067157', 'testing a dapp', 'body here. Just testing an upcoming dApp. Dont vote, please', jsonMetadata, function(err, result) {
               console.log('post result', err, result);
 
               if (result) self.txId = result.id || result.result.id;
