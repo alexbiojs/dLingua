@@ -43,7 +43,8 @@ import { linkify } from 'remarkable/linkify';
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'http://localhost:3000/hivesigner',
+  /*callbackURL: 'http://localhost:3000/hivesigner',*/
+  callbackURL: 'https://dlingua.netlify.app/',
   scope: ['vote', 'comment']
 });
 
@@ -362,7 +363,7 @@ export default {
         /*this.$store.state.dispatch('toggleisLoading');*/
          
         client.setAccessToken(token);
-        window.history.replaceState({}, document.title, "http://localhost:3000/hivesigner/");
+        window.history.replaceState({}, document.title, "https://dlingua.netlify.app/");
         
         /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
         
