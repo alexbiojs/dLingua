@@ -19,6 +19,12 @@
         
         <v-btn class="ma-12" outlined color="green" id="posting"> post </v-btn>
         
+        <v-btn class="ma-12" outlined color="blue" id="getContributions"> Show contributions </v-btn>
+        
+        <div id="getContributionsRollout"></div>
+        
+        <div id="profile"></div>
+        
         <div id="postList"></div>
         <v-card id="modal" style="visibility: hidden; width: 50%; height: 50%"> text </v-card>
     <v-footer fixed>
@@ -37,7 +43,7 @@ import { linkify } from 'remarkable/linkify';
 
 const client = new hivesigner.Client({
   app: 'dlingua',
-  callbackURL: 'https://dlingua.netlify.app/hivesigner/',
+  callbackURL: 'http://localhost:3000/hivesigner',
   scope: ['vote', 'comment']
 });
 
@@ -275,11 +281,64 @@ jQuery(document).ready(function() {
         
         
         
+           
+        
+       
+                
+    
+    
+    
+        
+        
     }
   });
   
   
+  
+  
+  /* Getting user's feed */
+  
+  jQuery('#getContributions').click(function(e) {
+        
+            var queryForContributions = {
+                    tag: 'wti18n',
+                    limit: 5,
+                };
+                
+            
+            /*getContributions*/
+
+            console.log("testing user's feed");
+
+            clientHive.database.getDiscussions('blog', queryForContributions).then(result => {
+                    var posts = [];
+                    result.forEach(post => {
+                      if(post.category == "dlingua"){
+                        const json = JSON.parse(post.json_metadata);
+                        const image = json.image ? json.image[0] : '';
+                        const title = post.title;
+                        const author = post.author; 
+                        const created = new Date(post.created).toDateString();
+                        posts.push(
+                            `<div><h4>${title}</h4><p>by ${author}</p><center><img src="${image}" style="max-width: 450px"/></center><p>${created}</p></div>`
+                        );
+                      }
+                    });
+                    console.log("testing user's feed");
+                    document.getElementById('getContributionsRollout').innerHTML = posts.join('');
+                }).catch(err => {
+                    alert('Error occured' + err);
+                });
+        
+        });
+
+  
 });
+
+
+
+
+
 
 
 
@@ -301,9 +360,9 @@ export default {
         this.$store.dispatch('hivesigner/toggleisLoading');
         
         /*this.$store.state.dispatch('toggleisLoading');*/
-        
+         
         client.setAccessToken(token);
-        window.history.replaceState({}, document.title, "https://dlingua.netlify.app/hivesigner/");
+        window.history.replaceState({}, document.title, "http://localhost:3000/hivesigner/");
         
         /*https://stackoverflow.com/questions/22753052/remove-url-parameters-without-refreshing-page*/
         
@@ -313,7 +372,32 @@ export default {
           localStorage.setItem('sc_token', token);
           self.isInit = true;
           console.log(err, result);
-          console.log(myUsername);
+          
+          /*profile image*/
+          
+          var json_metadata = result.account.json_metadata;
+          
+          var metadata = JSON.parse(json_metadata);
+          
+          var image = metadata.profile.profile_image;
+                    
+          console.log(myUsername + " " + result.account.balance + " " + metadata.profile.about + " " + image);
+                  
+          var profile = '<center><img id="profileImage" src="" style="max-width: 50px"/></center>';
+          
+          document.getElementById('profile').innerHTML = profile;
+          
+          document.getElementById('profileImage').setAttribute("src",image);
+          
+          
+          /* works
+          clientHive.database.call('get_account_reputations', ["alexbiojs", "1"]).then(result => {
+          
+            console.log(result);
+                    
+          });
+          */
+          
         });
       } else {
         this.isInit = true;
