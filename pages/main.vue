@@ -277,9 +277,9 @@
 
                     $('#openVoicesList').click(function(e){
 
-                        code = "voice-" + code;
+                        var code1 = "voice-" + code;
 
-                        getDiscussions ("created", code, "modal2", "ListOfPosts1", "modal5", "PostDetails1");
+                        getDiscussions ("created", code1, "modal2", "ListOfPosts1", "modal5", "PostDetails1");
                     });
 
                     $('#closeTesting-modal2').click(function(e){
@@ -293,9 +293,9 @@
 
                     $('#openUsersList').click(function(e){
 
-                        code = "application-" + code;
+                        var code2 = "application-" + code;
 
-                        getDiscussions ("trending", code, "modal4", "ListOfPosts3", "modal7", "PostDetails3"); //change to "created"
+                        getDiscussions ("trending", code2, "modal4", "ListOfPosts3", "modal7", "PostDetails3"); //change to "created"
                     });
 
                     $('#closeTesting-modal4').click(function(e){
@@ -464,7 +464,7 @@ function getDiscussions (typeOfRequest, code, modelIdForList, elementIdforList, 
     if (result) {
         var posts = [];
         result.forEach(post =>{
-            /*if(post.category == "dlingua"){*/ /* for user's feed specifically for dLingua*/
+            if(post.category == "dlingua"){ /* for user's feed specifically for dLingua*/
             const json = JSON.parse(post.json_metadata);
             const image = json.image ? json.image[0] : '';
             const title = post.title;
@@ -477,8 +477,11 @@ function getDiscussions (typeOfRequest, code, modelIdForList, elementIdforList, 
                 <h2 class="addedposts" data-author="${author}" data-permlink="${permlink}"> Click here to Show details </h2><center><img src="${image}" style="max-width: 200px"/></center><p>${created}</p></div>`
             );        
             
-        /*}*/
+        }
     });
+    
+    code = "";
+    
     document.getElementById(elementIdforList).innerHTML = posts.join('');
     
     
