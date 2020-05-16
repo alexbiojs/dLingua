@@ -38,7 +38,7 @@ export default {
   */
   css: [
       '~/assets/cssmain.css',
-      { src: '~assets/cssmain.css', lang: 'css' }
+      /*{ src: '~assets/cssmain.css', lang: 'css' }*/
       /*'@/assets/cssmain.css',*/
   ],
   build: {
