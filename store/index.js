@@ -3,4 +3,3 @@ https://nuxtjs.org/guide/vuex-store*/
 
 export const strict = false
 
-

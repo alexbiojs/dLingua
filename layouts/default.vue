@@ -2,9 +2,6 @@
 
 <template>
     <v-app dark>
-    <v-app-bar fixed>
-      <v-btn class="ma-3" outlined color="indigo"> map </v-btn>
-    </v-app-bar>
         <nuxt />
     <v-footer fixed>
       <span>{{ new Date().getFullYear() }}, by <a href="https://peakd.com/@alexbiojs" target="_blank">alexbiojs</a></span>

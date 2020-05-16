@@ -1,8 +1,8 @@
 export const state = () => ({
   isAuthorized: false,
   isLoading: true,
-  testing: 'testing'
-    
+  testing: 'testing',
+  dialog: true
 })
 
 export const mutations = {
@@ -11,11 +11,17 @@ export const mutations = {
   },
   loading (state){
       state.isLoading = !state.isLoading
+  },
+  toggleMenu (state){
+      state.dialog = !state.dialog
   }
 }
 
 export const actions = {
-     toggleisLoading (context) {
+    toggleisLoading (context) {
        context.commit('loading')
-   }
+    },
+    showMenu(context){
+        context.commit('toggleMenu')
+    }
 }
