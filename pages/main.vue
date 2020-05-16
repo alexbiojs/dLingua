@@ -156,7 +156,7 @@
 
     const client = new hivesigner.Client({
         app: 'dlingua',
-        callbackURL: 'http://localhost:3000/main',
+        callbackURL: 'https://dlingua.netlify.app/main',
         scope: ['vote', 'comment']
     });
 
@@ -559,7 +559,7 @@ export default {
             this.$store.dispatch('hivesigner/toggleisLoading');
 
             client.setAccessToken(token);
-            window.history.replaceState({}, document.title, "http://localhost:3000/main");
+            window.history.replaceState({}, document.title, "https://dlingua.netlify.app/main");
 
             client.me(function(err, result) {
                 if (result) myUsername = result.name;
@@ -604,7 +604,7 @@ export default {
         logout: function () {
             myUsername = null;
             localStorage.removeItem('sc_token');
-            window.location.replace("http://localhost:3000/main");
+            window.location.replace("https://dlingua.netlify.app/main");
         }
     }
 }
