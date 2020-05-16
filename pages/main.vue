@@ -554,7 +554,7 @@ export default {
         logout: function () {
             myUsername = null;
             localStorage.removeItem('sc_token');
-            window.location.replace("http://localhost:3000/hivesigner");
+            window.location.replace("https://dlingua.netlify.app/main");
         }
     }
 }
