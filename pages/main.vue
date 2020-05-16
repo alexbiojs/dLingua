@@ -115,7 +115,7 @@
             >
             </v-row>
         </v-card>
-        <v-card style="visibility:hidden" height="80%" width="80%" class="centered ma-3 modalWindow2" id="modal9">
+        <v-card style="visibility:hidden" height="80%" width="80%" class="centered ma-3 modalWindow2 scroll" id="modal9">
             <v-btn id="closeTesting-modal9" class="fixedIcon"
             icon
             dark
@@ -156,7 +156,7 @@
 
     const client = new hivesigner.Client({
         app: 'dlingua',
-        callbackURL: 'https://dlingua.netlify.app/main',
+        callbackURL: 'http://localhost:3000/main',
         scope: ['vote', 'comment']
     });
 
@@ -559,7 +559,7 @@ export default {
             this.$store.dispatch('hivesigner/toggleisLoading');
 
             client.setAccessToken(token);
-            window.history.replaceState({}, document.title, "https://dlingua.netlify.app/main");
+            window.history.replaceState({}, document.title, "http://localhost:3000/main");
 
             client.me(function(err, result) {
                 if (result) myUsername = result.name;
@@ -604,7 +604,7 @@ export default {
         logout: function () {
             myUsername = null;
             localStorage.removeItem('sc_token');
-            window.location.replace("https://dlingua.netlify.app/main");
+            window.location.replace("http://localhost:3000/main");
         }
     }
 }
