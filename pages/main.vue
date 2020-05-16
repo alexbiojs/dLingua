@@ -156,7 +156,7 @@
 
     const client = new hivesigner.Client({
         app: 'dlingua',
-        callbackURL: 'http://localhost:3000/main',
+        callbackURL: 'https://dlingua.netlify.app/main',
         scope: ['vote', 'comment']
     });
 
@@ -277,7 +277,7 @@
 
                     $('#openVoicesList').click(function(e){
 
-                        /*code = "voice-" + code;*/
+                        code = "voice-" + code;
 
                         getDiscussions ("created", code, "modal2", "ListOfPosts1", "modal5", "PostDetails1");
                     });
@@ -293,7 +293,7 @@
 
                     $('#openUsersList').click(function(e){
 
-                        /*code = "application-" + code;*/
+                        code = "application-" + code;
 
                         getDiscussions ("trending", code, "modal4", "ListOfPosts3", "modal7", "PostDetails3"); //change to "created"
                     });
@@ -556,7 +556,7 @@ export default {
             this.$store.dispatch('hivesigner/toggleisLoading');
 
             client.setAccessToken(token);
-            window.history.replaceState({}, document.title, "http://localhost:3000/main");
+            window.history.replaceState({}, document.title, "https://dlingua.netlify.app/main");
 
             client.me(function(err, result) {
                 if (result) myUsername = result.name;
@@ -601,7 +601,7 @@ export default {
         logout: function () {
             myUsername = null;
             localStorage.removeItem('sc_token');
-            window.location.replace("http://localhost:3000/main");
+            window.location.replace("https://dlingua.netlify.app/main");
         }
     }
 }
