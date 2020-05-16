@@ -14,7 +14,7 @@
                 <v-spacer />
             </v-toolbar>
         </v-card>
-        <div id="vmap" align-center justify-center style="width: 800px; height: 600px"></div>
+        <div id="vmap" style="width: 800px; height: 600px"></div>
 
         <v-card style="visibility:hidden;" class="centered ma-3 modalWindow" id="modal1" width="15%">
             <v-btn id="closeTesting-modal1"
@@ -31,7 +31,7 @@
                 <v-btn color="primary" id="openUsersList" class="ma-2" dark> Users list </v-btn>
             </v-row>
         </v-card>
-        <v-card style="visibility:hidden;" height="80%" width="80%" class="centered ma-3 modalWindow2 scroll" id="modal2">
+        <v-card style="visibility:hidden;" width="80%" class="centered ma-3 modalWindow2 scroll" id="modal2">
             <v-btn id="closeTesting-modal2" class="fixedIcon"
             icon
             dark
@@ -156,7 +156,7 @@
 
     const client = new hivesigner.Client({
         app: 'dlingua',
-        callbackURL: 'https://dlingua.netlify.app/main',
+        callbackURL: 'http://localhost:3000/main',
         scope: ['vote', 'comment']
     });
 
@@ -175,6 +175,45 @@
 
 
     jQuery(document).ready(function() {
+
+
+
+          
+            $("#vmap").css("position","fixed");
+            $("#vmap").css("top","20%");
+            $("#vmap").css("left","50%");
+            $("#vmap").css("transform","translate(-50%, -20%)");
+              
+            $(".modalWindow").css("position","fixed");
+            $(".modalWindow").css("top","50%");
+            $(".modalWindow").css("left","50%");
+            $(".modalWindow").css("width","250px");
+            $(".modalWindow").css("transform","translate(-50%, -50%)");
+            
+            $(".scroll").css("margin","4px, 4px");
+            $(".scroll").css("padding","4px");
+            $(".scroll").css("background-color","gray");
+            $(".scroll").css("height","80%");
+            $(".scroll").css("overflow-x","hidden");
+            $(".scroll").css("overflow-x","auto");
+            $(".scroll").css("text-align","justify");
+            $(".modalWindow2").css("position","fixed");
+            $(".modalWindow2").css("top","50%");
+            $(".modalWindow2").css("left","50%");
+            $(".modalWindow2").css("transform","translate(-50%, -50%)");
+            $(".modalWindow2").css("width","80%");
+            $(".modalWindow2").css("height","80%");
+            
+            $("#modal6").css("z-index","3");
+            $("#modal3").css("z-index","3");
+            $("#voteit").css("background-color","blue");
+            $("#voteit").css("border-radius","15px 15px 15px 15px");
+            
+            
+
+
+
+
 
 
         jQuery('#vmap').vectorMap(
@@ -227,7 +266,7 @@
                     
                     
                     
-                    $('#Phonetics').html("");/*fixing a bug*/
+                    /*$('#Phonetics').html(""); fixing a bug*/
                     
                     $("#modal1").css("visibility", "visible");
 
@@ -238,7 +277,7 @@
 
                     $('#openVoicesList').click(function(e){
 
-                        code = "voice-" + code;
+                        /*code = "voice-" + code;*/
 
                         getDiscussions ("created", code, "modal2", "ListOfPosts1", "modal5", "PostDetails1");
                     });
@@ -254,7 +293,7 @@
 
                     $('#openUsersList').click(function(e){
 
-                        code = "application-" + code;
+                        /*code = "application-" + code;*/
 
                         getDiscussions ("trending", code, "modal4", "ListOfPosts3", "modal7", "PostDetails3"); //change to "created"
                     });
@@ -339,6 +378,11 @@
                                 $("#Phonetics").append(list2);
                                 console.log(list);
                                 console.log(list2);
+                                
+                                $(".phonemes").css("background","gray");
+                                $(".phonemes").css("margin","2px");
+                                $(".phonemes").css("border-radius","15px 15px 15px 15px;");
+                                $(".phonemes").css("text-align","center");
                             }
                             console.log("text");
                      };
@@ -392,7 +436,7 @@
                         
                         
                     });
-        
+            
 
     });
 
@@ -420,21 +464,24 @@ function getDiscussions (typeOfRequest, code, modelIdForList, elementIdforList, 
     if (result) {
         var posts = [];
         result.forEach(post =>{
-            if(post.category == "dlingua"){ /* for user's feed specifically for dLingua*/
+            /*if(post.category == "dlingua"){*/ /* for user's feed specifically for dLingua*/
             const json = JSON.parse(post.json_metadata);
             const image = json.image ? json.image[0] : '';
             const title = post.title;
             const permlink = post.permlink;
             const author = post.author;
             const created = new Date(post.created).toDateString();
-            posts.push(`<div style="background-color:gray" id="elements">
+            posts.push(`<div style="background-color:gray; width:80%; border-radius: 15px 15px 15px 15px; padding: 3%; margin: 5px;">
                 <h2> ${title}</h2>
                 <p> Author: ${author}</p>
                 <h2 class="addedposts" data-author="${author}" data-permlink="${permlink}"> Click here to Show details </h2><center><img src="${image}" style="max-width: 200px"/></center><p>${created}</p></div>`
-            );
-        }
+            );        
+            
+        /*}*/
     });
     document.getElementById(elementIdforList).innerHTML = posts.join('');
+    
+    
     $(".addedposts").click(function(e) {
         var author = e.target.dataset.author;
         console.log(e);
@@ -464,7 +511,7 @@ function getPostDetails (modelIdForPostDetails, elementIdforPostDetails, author,
         console.log(result);
     const md = new Remarkable({ html: true}).use(linkify);
     const body = md.render(result.body);
-    const content = `<div style="background-color:gray" id="elements"><br>
+    const content = `<div style="background-color:gray; width:80%;"><br>
         <h2>${result.title}</h2><br>${body}<br>
         <div id="voteButton">
         <button id="voteit"><h1>Vote!</h1></button><br>
@@ -509,7 +556,7 @@ export default {
             this.$store.dispatch('hivesigner/toggleisLoading');
 
             client.setAccessToken(token);
-            window.history.replaceState({}, document.title, "https://dlingua.netlify.app/main");
+            window.history.replaceState({}, document.title, "http://localhost:3000/main");
 
             client.me(function(err, result) {
                 if (result) myUsername = result.name;
@@ -554,10 +601,9 @@ export default {
         logout: function () {
             myUsername = null;
             localStorage.removeItem('sc_token');
-            window.location.replace("https://dlingua.netlify.app/main");
+            window.location.replace("http://localhost:3000/main");
         }
     }
 }
 
 </script>
-
