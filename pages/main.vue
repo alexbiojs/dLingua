@@ -160,7 +160,7 @@
         scope: ['vote', 'comment']
     });
 
-
+  
     var myUsername = "";
     
 /*PHONETIC SYSTEM*/    
