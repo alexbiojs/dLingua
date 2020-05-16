@@ -16,6 +16,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css'}
+      /*{ rel: 'stylesheet', href: 'https://raw.githubusercontent.com/alexbiojs/alexbiojs.github.io/master/index.css'}*/
     ],
     script: [
       { src: 'https://cdn.jsdelivr.net/npm/hivesigner@3.1.5' },
@@ -36,10 +37,10 @@ export default {
   ** Global CSS
   */
   css: [
-      '~/assets/jqvmap.min.css',
+      '~/assets/cssmain.css'
   ],
   build: {
-          extractCSS: true
+      extractCSS: true
   },
   /*
   ** Plugins to load before mounting the App

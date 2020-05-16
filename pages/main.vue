@@ -14,7 +14,7 @@
                 <v-spacer />
             </v-toolbar>
         </v-card>
-        <v-card id="vmap" align-center justify-center style="width: 800px; height: 600px"></v-card>
+        <div id="vmap" align-center justify-center style="width: 800px; height: 600px"></div>
 
         <v-card style="visibility:hidden;" class="centered ma-3 modalWindow" id="modal1" width="15%">
             <v-btn id="closeTesting-modal1"
@@ -560,78 +560,3 @@ export default {
 }
 
 </script>
-
-
-
-<style>
-    .phonemes {
-        background:gray;
-        margin:2px;
-        border-radius: 15px 15px 15px 15px;
-        text-align:center;
-    }
-    
-    #vmap{
-        position: fixed;
-        top: 20%;
-        left: 50%;
-        width:250px;
-        transform: translate(-50%, -20%);
-    }
-    
-    .modalWindow {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        width:250px;
-        transform: translate(-50%, -50%);
-    }    
-    .scroll { 
-        margin:4px, 4px; 
-        padding:4px; 
-        background-color: green; 
-        width: 500px; 
-        height: 110px; 
-        overflow-x: hidden; 
-        overflow-x: auto; 
-        text-align:justify; 
-    }
-    .modalWindow2 {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    
-    #modal6, #modal3 {
-        
-        z-index:3;
-    
-    }
-    
-    .fixedIcon {
-    
-        position: relative;
-        top: 5px;
-        left: 5px;
-    
-    }
-    
-    #voteit{
-        background-color: blue;
-        border-radius: 15px 15px 15px 15px;
-    }
-    
-    #voteButton{
-        
-    }
-    
-    #elements{
-        padding: 3%;
-        border-radius: 15px 15px 15px 15px;
-        width:80%;
-        margin: 5px;
-    
-    }
-
-</style>
