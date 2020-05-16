@@ -37,7 +37,7 @@ export default {
   ** Global CSS
   */
   css: [
-      '~/assets/cssmain.css',
+      '~/assets/cssmain.css'
       /*{ src: '~assets/cssmain.css', lang: 'css' }*/
       /*'@/assets/cssmain.css',*/
   ],
